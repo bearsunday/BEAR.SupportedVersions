@@ -15,4 +15,4 @@ Supported PHP versions
 
 End of life
 
-* 5.5.*
+* `5.5.*`
