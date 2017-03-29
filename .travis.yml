@@ -13,3 +13,4 @@ script:
   - composer create-project --no-interaction bear/skeleton app
   - cd app
   - phpunit
+  - php bootstrap/web.php get /
