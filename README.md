@@ -9,9 +9,9 @@ See [Supported Versions](http://php.net/supported-versions.php) and [Unsupported
 
 Supported PHP versions
 
-* > 5.6.0
-* > 7.0.0
-* > 7.1.0
+* `>= 5.6.0`
+* `>= 7.0.0`
+* `>= 7.1.0`
 
 End of life
 
