@@ -12,5 +12,6 @@ cache:
 script:
   - composer create-project --no-interaction bear/skeleton app
   - cd app
+  - touch .env
   - vendor/bin/phpunit
   - php bootstrap/web.php get /
