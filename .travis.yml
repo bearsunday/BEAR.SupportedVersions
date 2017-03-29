@@ -5,6 +5,9 @@ php:
   - 7
   - 7.1
   - hhvm
+matrix:
+    allow_failures:
+        - php: hhvm
 sudo: false
 cache:
   directories:
