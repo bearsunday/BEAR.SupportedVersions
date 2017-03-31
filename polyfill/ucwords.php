@@ -9,7 +9,7 @@ namespace BEAR\Resource;
 /**
  * ucwords for obsolete php version 5.5.15 or down
  *
- * @param $str
+ * @param string $str
  * @param string $delimiter
  *
  * @return string
