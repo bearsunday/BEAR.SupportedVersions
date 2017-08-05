@@ -22,8 +22,8 @@ cache:
   directories:
     - $HOME/.composer/cache
 script:
+  - composer self-update
   - composer create-project --no-interaction bear/skeleton app
   - cd app
-  - vendor/bin/bear.compile 'MyVendor\MyProject' prod-hal-app .
   - vendor/bin/phpunit
   - php bootstrap/web.php get /
