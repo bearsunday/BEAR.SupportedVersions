@@ -3,7 +3,6 @@ sudo: required
 dist: trusty
 group: edge
 php:
-  - 5.5.21
   - 5.5.29
   - 5.5.30
   - 5.5.21
@@ -73,6 +72,6 @@ cache:
 script:
   - composer create-project --no-interaction bear/skeleton app
   - cd app
-  - touch .env
+  - vendor/bin/bear.compile 'MyVendor\MyProject' prod-hal-app .
   - vendor/bin/phpunit
   - php bootstrap/web.php get /
