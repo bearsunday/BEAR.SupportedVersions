@@ -29,4 +29,4 @@ script:
   - composer create-project --no-interaction bear/skeleton app
   - cd app
   - vendor/bin/phpunit
-  - php bootstrap/web.php get / || php bootstrap/page.php get /
+  - php bootstrap/web.php get / || php bin/page.php get /
