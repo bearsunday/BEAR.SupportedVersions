@@ -15,7 +15,7 @@ php:
   - 7.2
   - 7.3.0
   - 7.3
-  - 7.4snapshot
+  - 7.4
   - nightly
 matrix:
     allow_failures:
@@ -25,6 +25,7 @@ cache:
     - $HOME/.composer/cache
 script:
   - composer self-update
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer create-project --no-interaction bear/skeleton app
   - cd app
   - vendor/bin/phpunit
