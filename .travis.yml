@@ -27,7 +27,6 @@ cache:
 before_install:
   - phpenv config-rm xdebug.ini || true
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer validate
   - composer self-update
   - if [ "$TRAVIS_PHP_VERSION" = "nightly" ]; then
       export DEPENDENCIES="$DEPENDENCIES --ignore-platform-reqs"
