@@ -24,10 +24,16 @@ matrix:
 cache:
   directories:
     - $HOME/.composer/cache
-script:
-  - composer self-update
+before_install:
+  - phpenv config-rm xdebug.ini || true
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer create-project --no-interaction bear/skeleton app
+  - composer validate
+  - composer self-update
+  - if [ "$TRAVIS_PHP_VERSION" = "nightly" ]; then
+      export DEPENDENCIES="$DEPENDENCIES --ignore-platform-reqs"
+    fi;
+script:
+  - composer create-project --no-interaction bear/skeleton app $DEPENDENCIES
   - cd app
   - vendor/bin/phpunit
   - php bootstrap/web.php get / || php bin/page.php get /
