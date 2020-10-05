@@ -28,11 +28,13 @@ before_install:
   - phpenv config-rm xdebug.ini || true
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
-  - if [ "$TRAVIS_PHP_VERSION" = "nightly" ]; then
-      export DEPENDENCIES="$DEPENDENCIES --ignore-platform-reqs"
-    fi;
 script:
-  - composer create-project --no-interaction bear/skeleton app $DEPENDENCIES
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" == "nightly" ]]; then
+      php -v; composer create-project --no-interaction bear/skeleton app --ignore-platform-reqs
+    else
+      composer create-project --no-interaction bear/skeleton app
+    fi;
   - cd app
   - vendor/bin/phpunit
   - php bootstrap/web.php get / || php bin/page.php get /
