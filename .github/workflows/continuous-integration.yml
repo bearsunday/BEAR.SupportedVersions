@@ -1,0 +1,59 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '42 15 * * *'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        operating-system:
+          - ubuntu-latest
+          - windows-latest
+        php-version:
+          - '5.5'
+          - '5.6'
+          - '7.1'
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
+          - '8.1'
+    steps:
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Create Project
+        run: composer create-project -n bear/skeleton app
+
+      - name: List files
+        run: ls -lR;
+
+      - name: Invoke Request (bootstrap)
+        if: contains(matrix.php-version, '5.')
+        run: php ./app/bootstrap/web.php get /
+
+      - name: Invoke Request (bin)
+        if: contains(matrix.php-version, '7.')
+        run: php ./app/bin/page.php get /
+
+      - name: Run test suite
+        run: ./app/vendor/bin/phpunit -c app/phpunit.xml.dist
