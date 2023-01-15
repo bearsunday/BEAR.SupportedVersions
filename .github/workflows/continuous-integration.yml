@@ -16,12 +16,12 @@ jobs:
         php-version:
           - '5.5'
           - '5.6'
-          - '7.1'
           - '7.2'
           - '7.3'
           - '7.4'
           - '8.0'
           - '8.1'
+          - '8.2'
     steps:
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -33,13 +33,36 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/app/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Create Project
+      - name: Create Project (5.x)
+        if: contains(matrix.php-version, '5.')
+        run: |
+          composer create-project -n bear/skeleton app
+
+      - name: Create Project (7.x)
+        if: contains(matrix.php-version, '7.')
+        run: |
+          composer create-project -n bear/skeleton app --no-install
+
+      - name: Create Project (7.2)
+        if: contains(matrix.php-version, '7.2')
+        run: |
+          cd app
+          composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
+      - name: Create Project (7.x)
+        if: contains(matrix.php-version, '7.')
+        run: |
+          cd app
+          composer install -n
+
+      - name: Create Project (8.x)
+        if: contains(matrix.php-version, '8.')
         run: composer create-project -n bear/skeleton app
 
       - name: List files
