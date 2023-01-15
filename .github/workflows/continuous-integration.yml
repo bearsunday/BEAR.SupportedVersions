@@ -40,7 +40,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Create Project
-        run: composer create-project -n bear/skeleton app --no-install
+        run: composer create-project -n bear/skeleton app --no-install && cd app && composer config allow-plugins && composer install -n
 
       - name: List files
         run: ls -lR;
