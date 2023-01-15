@@ -22,7 +22,6 @@ jobs:
           - '7.4'
           - '8.0'
           - '8.1'
-          - '8.2'
     steps:
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -53,3 +52,6 @@ jobs:
       - name: Invoke Request (bin)
         if: contains(matrix.php-version, '7.')
         run: php ./app/bin/page.php get /
+
+      - name: Run test suite
+        run: ./app/vendor/bin/phpunit -c app/phpunit.xml.dist
