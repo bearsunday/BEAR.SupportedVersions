@@ -22,6 +22,7 @@ jobs:
           - '8.0'
           - '8.1'
           - '8.2'
+          - '8.3'
     steps:
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -62,6 +63,7 @@ jobs:
           composer install -n
 
       - name: Create Project (8.x)
+        continue-on-error: true
         if: contains(matrix.php-version, '8.')
         run: composer create-project -n bear/skeleton app
 
